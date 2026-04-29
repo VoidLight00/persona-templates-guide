@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -78,20 +78,36 @@
         padding: 18px 0;
       }
 
+      .header-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
       .brand,
       .eyebrow,
       .button,
       .tag,
       th,
       .step__index,
-      code {
+      code,
+      .lang-switch__button {
         font-family: var(--mono);
       }
 
       .brand {
+        display: inline-block;
         font-size: 0.82rem;
         letter-spacing: 0.14em;
         text-transform: uppercase;
+      }
+
+      .brand--ko {
+        font-family: var(--sans);
+        letter-spacing: 0.04em;
+        text-transform: none;
       }
 
       .nav {
@@ -104,6 +120,43 @@
       .nav a {
         font-size: 0.92rem;
         color: var(--text-secondary);
+      }
+
+      .nav--ko a {
+        letter-spacing: 0.01em;
+      }
+
+      .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .lang-switch__button {
+        appearance: none;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-secondary);
+        min-height: 34px;
+        padding: 6px 12px;
+        cursor: pointer;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+
+      .lang-switch__button:hover {
+        color: var(--fg);
+        background: var(--surface-hover);
+      }
+
+      .lang-switch__button.is-active {
+        color: var(--bg);
+        background: var(--fg);
+        border-color: var(--fg);
       }
 
       .hero {
@@ -375,6 +428,35 @@
         border-top: 1px solid var(--border);
       }
 
+      .lang-korean {
+        line-height: 1.7;
+      }
+
+      .lang-korean h1 {
+        font-family: var(--sans);
+        font-size: clamp(3.2rem, 10vw, 6.4rem);
+        font-weight: 400;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        max-width: 860px;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+      }
+
+      .lang-korean .eyebrow,
+      .lang-korean .step__index,
+      .lang-korean .tag,
+      .lang-korean th {
+        font-family: var(--sans);
+        letter-spacing: 0.04em;
+        text-transform: none;
+      }
+
+      .lang-korean .button {
+        font-family: var(--sans);
+        letter-spacing: 0.04em;
+      }
+
       @media (max-width: 960px) {
         .meta-row,
         .grid-3,
@@ -384,7 +466,8 @@
           grid-template-columns: 1fr;
         }
 
-        .site-header__inner {
+        .site-header__inner,
+        .header-controls {
           align-items: flex-start;
           flex-direction: column;
         }
@@ -414,168 +497,181 @@
   <body>
     <header class="site-header">
       <div class="page site-header__inner">
-        <a class="brand" href="#top">Persona Templates Guide</a>
-        <nav class="nav" aria-label="Primary">
-          <a href="#overview">Overview</a>
-          <a href="#quickstart">Quickstart</a>
-          <a href="#reference">Reference</a>
-          <a href="#patterns">Patterns</a>
-          <a href="#checklist">Checklist</a>
-        </nav>
+        <a class="brand" href="#top-en" data-lang-content="en">Persona Templates Guide</a>
+        <a class="brand brand--ko" href="#top-ko" data-lang-content="ko" hidden>페르소나 템플릿 가이드</a>
+        <div class="header-controls">
+          <nav class="nav" aria-label="Primary" data-lang-content="en">
+            <a href="#overview-en">Overview</a>
+            <a href="#quickstart-en">Quickstart</a>
+            <a href="#reference-en">Reference</a>
+            <a href="#patterns-en">Patterns</a>
+            <a href="#checklist-en">Checklist</a>
+          </nav>
+          <nav class="nav nav--ko" aria-label="Primary" data-lang-content="ko" hidden>
+            <a href="#overview-ko">개요</a>
+            <a href="#quickstart-ko">퀵스타트</a>
+            <a href="#reference-ko">파일 맵</a>
+            <a href="#patterns-ko">패턴</a>
+            <a href="#checklist-ko">체크리스트</a>
+          </nav>
+          <div class="lang-switch" role="group" aria-label="Language switcher">
+            <button class="lang-switch__button is-active" type="button" data-switch-lang="en" aria-pressed="true">EN</button>
+            <button class="lang-switch__button" type="button" data-switch-lang="ko" aria-pressed="false">KR</button>
+          </div>
+        </div>
       </div>
     </header>
 
-    <main id="top" class="page">
-      <section class="hero">
-        <div>
-          <span class="eyebrow">Public tutorial / reusable persona systems</span>
-          <h1>Build personas that actually work.</h1>
-          <p class="hero__lead">
-            This guide shows how to turn a loose character prompt into a reusable AI persona system
-            using a stable core, an operating manual, optional extensions, and example patterns.
-            Start with <code>base-soul.md</code> and <code>base-agents.md</code>, then shape each persona for a real role.
+    <main class="page">
+      <div data-lang-content="en" id="top-en">
+        <section class="hero">
+          <div>
+            <span class="eyebrow">Public tutorial / reusable persona systems</span>
+            <h1>Build personas that actually work.</h1>
+            <p class="hero__lead">
+              This guide shows how to turn a loose character prompt into a reusable AI persona system
+              using a stable core, an operating manual, optional extensions, and example patterns.
+              Start with <code>base-soul.md</code> and <code>base-agents.md</code>, then shape each persona for a real role.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="#quickstart-en">Start quickstart</a>
+              <a class="button button--ghost" href="#reference-en">View file map</a>
+            </div>
+            <div class="meta-row">
+              <div class="meta-card">
+                <strong>Document type</strong>
+                <span>Tutorial for mixed technical and non-technical readers.</span>
+              </div>
+              <div class="meta-card">
+                <strong>Main outcome</strong>
+                <span>Create your first persona pack with a soul, agents guide, and optional extensions.</span>
+              </div>
+              <div class="meta-card">
+                <strong>Design mode</strong>
+                <span>Dark-first, monospace-forward, minimal structure inspired by xAI.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="overview-en" class="section">
+          <span class="eyebrow">01 / overview</span>
+          <h2>What you are building.</h2>
+          <p class="section-intro">
+            You are not building a single prompt. You are building a persona pack: a set of files that defines identity,
+            operating rules, optional platform behavior, and reusable examples. The goal is consistency, not novelty.
           </p>
-          <div class="hero__actions">
-            <a class="button button--primary" href="#quickstart">Start quickstart</a>
-            <a class="button button--ghost" href="#reference">View file map</a>
-          </div>
-          <div class="meta-row">
-            <div class="meta-card">
-              <strong>Document type</strong>
-              <span>Tutorial for mixed technical and non-technical readers.</span>
-            </div>
-            <div class="meta-card">
-              <strong>Main outcome</strong>
-              <span>Create your first persona pack with a soul, agents guide, and optional extensions.</span>
-            </div>
-            <div class="meta-card">
-              <strong>Design mode</strong>
-              <span>Dark-first, monospace-forward, minimal structure inspired by xAI.</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="overview" class="section">
-        <span class="eyebrow">01 / overview</span>
-        <h2>What you are building.</h2>
-        <p class="section-intro">
-          You are not building a single prompt. You are building a persona pack: a set of files that defines identity,
-          operating rules, optional platform behavior, and reusable examples. The goal is consistency, not novelty.
-        </p>
-        <div class="grid-3">
-          <article class="card">
-            <span class="tag">Core</span>
-            <h3><code>base-soul.md</code></h3>
-            <p>
-              The personality core. It defines identity, role, communication style, values, boundaries, and learning attitude.
-            </p>
-          </article>
-          <article class="card">
-            <span class="tag">SOP</span>
-            <h3><code>base-agents.md</code></h3>
-            <p>
-              The operating manual. It defines thinking flow, storage rules, collaboration, error handling, and startup checks.
-            </p>
-          </article>
-          <article class="card">
-            <span class="tag">Extensions</span>
-            <h3>Optional layers</h3>
-            <p>
-              Add platform-specific tone, custom skill templates, and example personas only when the base pair is stable.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <span class="eyebrow">02 / core idea</span>
-        <h2>Separate character from operation.</h2>
-        <div class="grid-2">
-          <article class="panel">
-            <span class="tag">Soul</span>
-            <p>
-              A persona without a clear core becomes generic. <code>base-soul.md</code> answers: Who is this persona?
-              What does it optimize for? How does it speak? What does it refuse to do?
-            </p>
-            <ul>
-              <li>Identity and role</li>
-              <li>Core personality traits</li>
-              <li>Communication style</li>
-              <li>Values, boundaries, and learning posture</li>
-            </ul>
-          </article>
-          <article class="panel">
-            <span class="tag">Agents</span>
-            <p>
-              A persona without an operating manual becomes inconsistent. <code>base-agents.md</code> answers:
-              How does this persona think, store, collaborate, and recover from failure?
-            </p>
-            <ul>
-              <li>Step-by-step reasoning flow</li>
-              <li>Absolute storage rules</li>
-              <li>Multi-agent handoff protocol</li>
-              <li>Error handling and startup checks</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section id="quickstart" class="section">
-        <span class="eyebrow">03 / quickstart</span>
-        <h2>Create your first persona pack in five steps.</h2>
-        <p class="section-intro">
-          This is the shortest path from template set to working persona. Keep the first version small. Do not start with every extension.
-        </p>
-        <div class="step-list">
-          <article class="step">
-            <div class="step__index">STEP 01</div>
-            <div class="step__content">
-              <h3>Copy the core pair.</h3>
+          <div class="grid-3">
+            <article class="card">
+              <span class="tag">Core</span>
+              <h3><code>base-soul.md</code></h3>
               <p>
-                Start with the two non-negotiable files. They define personality and operations.
+                The personality core. It defines identity, role, communication style, values, boundaries, and learning attitude.
               </p>
-              <pre><code>persona-name/
+            </article>
+            <article class="card">
+              <span class="tag">SOP</span>
+              <h3><code>base-agents.md</code></h3>
+              <p>
+                The operating manual. It defines thinking flow, storage rules, collaboration, error handling, and startup checks.
+              </p>
+            </article>
+            <article class="card">
+              <span class="tag">Extensions</span>
+              <h3>Optional layers</h3>
+              <p>
+                Add platform-specific tone, custom skill templates, and example personas only when the base pair is stable.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">02 / core idea</span>
+          <h2>Separate character from operation.</h2>
+          <div class="grid-2">
+            <article class="panel">
+              <span class="tag">Soul</span>
+              <p>
+                A persona without a clear core becomes generic. <code>base-soul.md</code> answers: Who is this persona?
+                What does it optimize for? How does it speak? What does it refuse to do?
+              </p>
+              <ul>
+                <li>Identity and role</li>
+                <li>Core personality traits</li>
+                <li>Communication style</li>
+                <li>Values, boundaries, and learning posture</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">Agents</span>
+              <p>
+                A persona without an operating manual becomes inconsistent. <code>base-agents.md</code> answers:
+                How does this persona think, store, collaborate, and recover from failure?
+              </p>
+              <ul>
+                <li>Step-by-step reasoning flow</li>
+                <li>Absolute storage rules</li>
+                <li>Multi-agent handoff protocol</li>
+                <li>Error handling and startup checks</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="quickstart-en" class="section">
+          <span class="eyebrow">03 / quickstart</span>
+          <h2>Create your first persona pack in five steps.</h2>
+          <p class="section-intro">
+            This is the shortest path from template set to working persona. Keep the first version small. Do not start with every extension.
+          </p>
+          <div class="step-list">
+            <article class="step">
+              <div class="step__index">STEP 01</div>
+              <div class="step__content">
+                <h3>Copy the core pair.</h3>
+                <p>Start with the two non-negotiable files. They define personality and operations.</p>
+                <pre><code>persona-name/
 ├── soul.md
 └── agents.md</code></pre>
-            </div>
-          </article>
-          <article class="step">
-            <div class="step__index">STEP 02</div>
-            <div class="step__content">
-              <h3>Rewrite the identity section first.</h3>
-              <p>
-                Replace placeholders in the soul file before changing style details. The role and mission should be obvious in three lines.
-              </p>
-              <pre><code>## Identity
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 02</div>
+              <div class="step__content">
+                <h3>Rewrite the identity section first.</h3>
+                <p>
+                  Replace placeholders in the soul file before changing style details. The role and mission should be obvious in three lines.
+                </p>
+                <pre><code>## Identity
 You are [Persona Name].
 - Role: [specific role]
 - Background: [context]
 - Core mission: [what success means]</code></pre>
-            </div>
-          </article>
-          <article class="step">
-            <div class="step__index">STEP 03</div>
-            <div class="step__content">
-              <h3>Keep the operating flow stable.</h3>
-              <p>
-                Do not over-customize the SOP on day one. Preserve the default order: understand intent, analyze context, plan, execute, verify, learn.
-              </p>
-              <pre><code>1. Understand the user's goal
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 03</div>
+              <div class="step__content">
+                <h3>Keep the operating flow stable.</h3>
+                <p>
+                  Do not over-customize the SOP on day one. Preserve the default order: understand intent, analyze context, plan, execute, verify, learn.
+                </p>
+                <pre><code>1. Understand the user's goal
 2. Analyze the current state
 3. Make a plan
 4. Execute and check progress
 5. Verify results and record insight</code></pre>
-            </div>
-          </article>
-          <article class="step">
-            <div class="step__index">STEP 04</div>
-            <div class="step__content">
-              <h3>Add extensions only after the core works.</h3>
-              <p>
-                Platform overrides and skill templates are force multipliers. They are not a replacement for a stable core persona.
-              </p>
-              <pre><code>persona-name/
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 04</div>
+              <div class="step__content">
+                <h3>Add extensions only after the core works.</h3>
+                <p>
+                  Platform overrides and skill templates are force multipliers. They are not a replacement for a stable core persona.
+                </p>
+                <pre><code>persona-name/
 ├── soul.md
 ├── agents.md
 ├── platform-overrides/
@@ -584,278 +680,750 @@ You are [Persona Name].
 └── custom-skills/
     └── skill-name/
         └── SKILL.md</code></pre>
-            </div>
-          </article>
-          <article class="step">
-            <div class="step__index">STEP 05</div>
-            <div class="step__content">
-              <h3>Run a public-ready review.</h3>
-              <p>
-                Remove internal jargon, collapse repeated claims, and check that someone outside your team can understand the role immediately.
-              </p>
-              <pre><code>Review for:
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 05</div>
+              <div class="step__content">
+                <h3>Run a public-ready review.</h3>
+                <p>
+                  Remove internal jargon, collapse repeated claims, and check that someone outside your team can understand the role immediately.
+                </p>
+                <pre><code>Review for:
 - clarity of role
 - stable operating rules
 - clean folder placement
 - extension necessity
 - external readability</code></pre>
-            </div>
-          </article>
-        </div>
-      </section>
+              </div>
+            </article>
+          </div>
+        </section>
 
-      <section class="section">
-        <span class="eyebrow">04 / anatomy</span>
-        <h2>Understand the template set before you extend it.</h2>
-        <div class="grid-2">
-          <article class="card">
-            <span class="tag">base-soul.md</span>
-            <p>
-              Use this file to lock the persona's emotional and strategic center. A good soul file creates coherence across tasks.
-            </p>
-            <ul>
-              <li>Identity and role definition</li>
-              <li>Accuracy, humility, user empathy, collaboration</li>
-              <li>Clear boundaries and non-negotiables</li>
-              <li>Learning rule: capture important insight after work</li>
-            </ul>
-          </article>
-          <article class="card">
-            <span class="tag">base-agents.md</span>
-            <p>
-              Use this file to standardize execution. A good agents file creates reliable behavior across sessions and teammates.
-            </p>
-            <ul>
-              <li>Default reasoning pipeline</li>
-              <li>Storage location rules</li>
-              <li>Collaboration contract between personas</li>
-              <li>Error handling and startup checklist</li>
-            </ul>
-          </article>
-          <article class="card">
-            <span class="tag">openclaw extension</span>
-            <p>
-              Add when a persona needs channel-specific tone, routing logic, or OpenClaw-native behavior.
-            </p>
-            <ul>
-              <li>Use for platform-specific speech patterns</li>
-              <li>Use for routing decisions</li>
-              <li>Skip if your persona is platform-agnostic</li>
-            </ul>
-          </article>
-          <article class="card">
-            <span class="tag">skill template</span>
-            <p>
-              Add when the persona needs repeatable capabilities with a consistent interface and output shape.
-            </p>
-            <ul>
-              <li>Description and when to use</li>
-              <li>Parameters and steps</li>
-              <li>Expected output example</li>
-            </ul>
-          </article>
-        </div>
-      </section>
+        <section class="section">
+          <span class="eyebrow">04 / anatomy</span>
+          <h2>Understand the template set before you extend it.</h2>
+          <div class="grid-2">
+            <article class="card">
+              <span class="tag">base-soul.md</span>
+              <p>
+                Use this file to lock the persona's emotional and strategic center. A good soul file creates coherence across tasks.
+              </p>
+              <ul>
+                <li>Identity and role definition</li>
+                <li>Accuracy, humility, user empathy, collaboration</li>
+                <li>Clear boundaries and non-negotiables</li>
+                <li>Learning rule: capture important insight after work</li>
+              </ul>
+            </article>
+            <article class="card">
+              <span class="tag">base-agents.md</span>
+              <p>
+                Use this file to standardize execution. A good agents file creates reliable behavior across sessions and teammates.
+              </p>
+              <ul>
+                <li>Default reasoning pipeline</li>
+                <li>Storage location rules</li>
+                <li>Collaboration contract between personas</li>
+                <li>Error handling and startup checklist</li>
+              </ul>
+            </article>
+            <article class="card">
+              <span class="tag">openclaw extension</span>
+              <p>
+                Add when a persona needs channel-specific tone, routing logic, or OpenClaw-native behavior.
+              </p>
+              <ul>
+                <li>Use for platform-specific speech patterns</li>
+                <li>Use for routing decisions</li>
+                <li>Skip if your persona is platform-agnostic</li>
+              </ul>
+            </article>
+            <article class="card">
+              <span class="tag">skill template</span>
+              <p>
+                Add when the persona needs repeatable capabilities with a consistent interface and output shape.
+              </p>
+              <ul>
+                <li>Description and when to use</li>
+                <li>Parameters and steps</li>
+                <li>Expected output example</li>
+              </ul>
+            </article>
+          </div>
+        </section>
 
-      <section id="reference" class="section">
-        <span class="eyebrow">05 / reference</span>
-        <h2>Template file map.</h2>
-        <p class="section-intro">
-          Use this table when you need a fast answer about what each file is for, what should stay stable, and what you should customize.
-        </p>
-        <div class="reference">
-          <table>
-            <thead>
-              <tr>
-                <th>File</th>
-                <th>Purpose</th>
-                <th>Keep stable</th>
-                <th>Customize</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>base-soul.md</code></td>
-                <td>Defines the persona's identity core.</td>
-                <td>Values, boundaries, collaboration posture.</td>
-                <td>Name, role, background, mission, tone emphasis.</td>
-              </tr>
-              <tr>
-                <td><code>base-agents.md</code></td>
-                <td>Defines standard operating procedure.</td>
-                <td>Thinking order, storage rules, startup checks.</td>
-                <td>Team roles, handoff details, error log location.</td>
-              </tr>
-              <tr>
-                <td><code>openclaw-soul-extension.md</code></td>
-                <td>Applies platform-specific behavior.</td>
-                <td>Extension-only scope.</td>
-                <td>Tone, routing criteria, OpenClaw-specific phrasing.</td>
-              </tr>
-              <tr>
-                <td><code>hermes-skill-template.md</code></td>
-                <td>Creates reusable skills with a consistent format.</td>
-                <td>Section order and output structure.</td>
-                <td>Skill purpose, inputs, steps, examples.</td>
-              </tr>
-              <tr>
-                <td><code>example-researcher-soul.md</code></td>
-                <td>Shows a complete persona example.</td>
-                <td>Use as a pattern reference only.</td>
-                <td>Extract useful structures, not exact wording.</td>
-              </tr>
-              <tr>
-                <td><code>example-researcher-agents.md</code></td>
-                <td>Shows a role-specific operating layer.</td>
-                <td>Pattern status as an example file.</td>
-                <td>Adapt research-specific rules for your own domain.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section id="patterns" class="section">
-        <span class="eyebrow">06 / patterns</span>
-        <h2>Starter patterns you can reuse.</h2>
-        <div class="patterns">
-          <article class="card">
-            <span class="tag">Pattern 01</span>
-            <h3>Orchestrator</h3>
-            <p>
-              Best when the persona routes work across tools or sub-agents. Prioritize delegation, synthesis, and final judgment.
-            </p>
-          </article>
-          <article class="card">
-            <span class="tag">Pattern 02</span>
-            <h3>Researcher</h3>
-            <p>
-              Best when the persona must collect, verify, and summarize information with high epistemic caution.
-            </p>
-          </article>
-          <article class="card">
-            <span class="tag">Pattern 03</span>
-            <h3>Content builder</h3>
-            <p>
-              Best when the persona turns rough material into polished public outputs with structure, consistency, and clear voice.
-            </p>
-          </article>
-          <article class="card">
-            <span class="tag">Pattern 04</span>
-            <h3>Internal operator</h3>
-            <p>
-              Best when the persona is responsible for routine execution, logging, and predictable operational discipline.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <span class="eyebrow">07 / mistakes</span>
-        <h2>Common mistakes to avoid.</h2>
-        <div class="grid-2">
-          <article class="panel">
-            <ul>
-              <li>Mixing personality traits into the operating manual.</li>
-              <li>Treating examples as production-ready instead of reference patterns.</li>
-              <li>Adding platform extensions before the core pair is stable.</li>
-              <li>Writing vague missions like “help the user efficiently” without a domain.</li>
-            </ul>
-          </article>
-          <article class="panel">
-            <ul>
-              <li>Letting every persona invent its own storage structure.</li>
-              <li>Overwriting the core SOP before testing the default flow.</li>
-              <li>Building a huge folder tree before one working persona exists.</li>
-              <li>Keeping internal-only language in a public-facing guide.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <span class="eyebrow">08 / workflow</span>
-        <h2>Recommended starter workflow.</h2>
-        <div class="panel">
-          <p>
-            The most reliable starting method is simple: copy <code>base-soul.md</code> and <code>base-agents.md</code>,
-            change the persona name and role, test with real tasks, then add only the extensions that prove necessary.
+        <section id="reference-en" class="section">
+          <span class="eyebrow">05 / reference</span>
+          <h2>Template file map.</h2>
+          <p class="section-intro">
+            Use this table when you need a fast answer about what each file is for, what should stay stable, and what you should customize.
           </p>
-          <pre><code>1. Copy base-soul.md and base-agents.md
+          <div class="reference">
+            <table>
+              <thead>
+                <tr>
+                  <th>File</th>
+                  <th>Purpose</th>
+                  <th>Keep stable</th>
+                  <th>Customize</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>base-soul.md</code></td>
+                  <td>Defines the persona's identity core.</td>
+                  <td>Values, boundaries, collaboration posture.</td>
+                  <td>Name, role, background, mission, tone emphasis.</td>
+                </tr>
+                <tr>
+                  <td><code>base-agents.md</code></td>
+                  <td>Defines standard operating procedure.</td>
+                  <td>Thinking order, storage rules, startup checks.</td>
+                  <td>Team roles, handoff details, error log location.</td>
+                </tr>
+                <tr>
+                  <td><code>openclaw-soul-extension.md</code></td>
+                  <td>Applies platform-specific behavior.</td>
+                  <td>Extension-only scope.</td>
+                  <td>Tone, routing criteria, OpenClaw-specific phrasing.</td>
+                </tr>
+                <tr>
+                  <td><code>hermes-skill-template.md</code></td>
+                  <td>Creates reusable skills with a consistent format.</td>
+                  <td>Section order and output structure.</td>
+                  <td>Skill purpose, inputs, steps, examples.</td>
+                </tr>
+                <tr>
+                  <td><code>example-researcher-soul.md</code></td>
+                  <td>Shows a complete persona example.</td>
+                  <td>Use as a pattern reference only.</td>
+                  <td>Extract useful structures, not exact wording.</td>
+                </tr>
+                <tr>
+                  <td><code>example-researcher-agents.md</code></td>
+                  <td>Shows a role-specific operating layer.</td>
+                  <td>Pattern status as an example file.</td>
+                  <td>Adapt research-specific rules for your own domain.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="patterns-en" class="section">
+          <span class="eyebrow">06 / patterns</span>
+          <h2>Starter patterns you can reuse.</h2>
+          <div class="patterns">
+            <article class="card">
+              <span class="tag">Pattern 01</span>
+              <h3>Orchestrator</h3>
+              <p>Best when the persona routes work across tools or sub-agents. Prioritize delegation, synthesis, and final judgment.</p>
+            </article>
+            <article class="card">
+              <span class="tag">Pattern 02</span>
+              <h3>Researcher</h3>
+              <p>Best when the persona must collect, verify, and summarize information with high epistemic caution.</p>
+            </article>
+            <article class="card">
+              <span class="tag">Pattern 03</span>
+              <h3>Content builder</h3>
+              <p>Best when the persona turns rough material into polished public outputs with structure, consistency, and clear voice.</p>
+            </article>
+            <article class="card">
+              <span class="tag">Pattern 04</span>
+              <h3>Internal operator</h3>
+              <p>Best when the persona is responsible for routine execution, logging, and predictable operational discipline.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">07 / mistakes</span>
+          <h2>Common mistakes to avoid.</h2>
+          <div class="grid-2">
+            <article class="panel">
+              <ul>
+                <li>Mixing personality traits into the operating manual.</li>
+                <li>Treating examples as production-ready instead of reference patterns.</li>
+                <li>Adding platform extensions before the core pair is stable.</li>
+                <li>Writing vague missions like “help the user efficiently” without a domain.</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <ul>
+                <li>Letting every persona invent its own storage structure.</li>
+                <li>Overwriting the core SOP before testing the default flow.</li>
+                <li>Building a huge folder tree before one working persona exists.</li>
+                <li>Keeping internal-only language in a public-facing guide.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">08 / workflow</span>
+          <h2>Recommended starter workflow.</h2>
+          <div class="panel">
+            <p>
+              The most reliable starting method is simple: copy <code>base-soul.md</code> and <code>base-agents.md</code>,
+              change the persona name and role, test with real tasks, then add only the extensions that prove necessary.
+            </p>
+            <pre><code>1. Copy base-soul.md and base-agents.md
 2. Rename them for the new persona
 3. Rewrite identity, role, and mission
 4. Keep the SOP mostly intact
 5. Test on real prompts
 6. Add platform overrides only if needed
 7. Turn repeated behavior into a skill template</code></pre>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section class="section">
-        <span class="eyebrow">09 / faq</span>
-        <h2>Frequently asked questions.</h2>
-        <details>
-          <summary>Do I always need both <code>base-soul.md</code> and <code>base-agents.md</code>?</summary>
-          <p>Yes. The soul file defines identity. The agents file defines execution. Without both, the persona drifts.</p>
-        </details>
-        <details>
-          <summary>Should I start from an example persona instead of the base files?</summary>
-          <p>Use example personas as reference patterns, not as your starting source of truth. Start with the base pair first.</p>
-        </details>
-        <details>
-          <summary>When should I add a platform override?</summary>
-          <p>Add it only when the persona must behave differently in a specific environment, channel, or orchestration layer.</p>
-        </details>
-      </section>
+        <section class="section">
+          <span class="eyebrow">09 / faq</span>
+          <h2>Frequently asked questions.</h2>
+          <details>
+            <summary>Do I always need both <code>base-soul.md</code> and <code>base-agents.md</code>?</summary>
+            <p>Yes. The soul file defines identity. The agents file defines execution. Without both, the persona drifts.</p>
+          </details>
+          <details>
+            <summary>Should I start from an example persona instead of the base files?</summary>
+            <p>Use example personas as reference patterns, not as your starting source of truth. Start with the base pair first.</p>
+          </details>
+          <details>
+            <summary>When should I add a platform override?</summary>
+            <p>Add it only when the persona must behave differently in a specific environment, channel, or orchestration layer.</p>
+          </details>
+        </section>
 
-      <section id="checklist" class="section">
-        <span class="eyebrow">10 / final checklist</span>
-        <h2>Public-ready checklist.</h2>
-        <div class="checklist">
-          <article class="panel">
-            <span class="tag">Clarity</span>
-            <ul>
-              <li>The role is obvious in one sentence.</li>
-              <li>The mission is concrete, not abstract.</li>
-              <li>The difference between core and extension is visible.</li>
-              <li>The folder structure is easy to scan.</li>
-            </ul>
-          </article>
-          <article class="panel">
-            <span class="tag">Consistency</span>
-            <ul>
-              <li>The SOP follows a stable order.</li>
-              <li>Storage rules are explicit.</li>
-              <li>Examples are labeled as examples.</li>
-              <li>Tone is coherent across all sections.</li>
-            </ul>
-          </article>
-          <article class="panel">
-            <span class="tag">Usefulness</span>
-            <ul>
-              <li>A newcomer can build a first persona without extra context.</li>
-              <li>An experienced builder can extend the system without guessing.</li>
-              <li>The guide shows both process and structure.</li>
-              <li>Each file has a clear reason to exist.</li>
-            </ul>
-          </article>
-          <article class="panel">
-            <span class="tag">Public fit</span>
-            <ul>
-              <li>Internal jargon has been removed or explained.</li>
-              <li>No confidential workflows or credentials appear.</li>
-              <li>The guide stands on its own as a shareable resource.</li>
-              <li>The visual presentation is clean enough for public release.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
+        <section id="checklist-en" class="section">
+          <span class="eyebrow">10 / final checklist</span>
+          <h2>Public-ready checklist.</h2>
+          <div class="checklist">
+            <article class="panel">
+              <span class="tag">Clarity</span>
+              <ul>
+                <li>The role is obvious in one sentence.</li>
+                <li>The mission is concrete, not abstract.</li>
+                <li>The difference between core and extension is visible.</li>
+                <li>The folder structure is easy to scan.</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">Consistency</span>
+              <ul>
+                <li>The SOP follows a stable order.</li>
+                <li>Storage rules are explicit.</li>
+                <li>Examples are labeled as examples.</li>
+                <li>Tone is coherent across all sections.</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">Usefulness</span>
+              <ul>
+                <li>A newcomer can build a first persona without extra context.</li>
+                <li>An experienced builder can extend the system without guessing.</li>
+                <li>The guide shows both process and structure.</li>
+                <li>Each file has a clear reason to exist.</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">Public fit</span>
+              <ul>
+                <li>Internal jargon has been removed or explained.</li>
+                <li>No confidential workflows or credentials appear.</li>
+                <li>The guide stands on its own as a shareable resource.</li>
+                <li>The visual presentation is clean enough for public release.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <div data-lang-content="ko" id="top-ko" class="lang-korean" hidden>
+        <section class="hero">
+          <div>
+            <span class="eyebrow">공개 튜토리얼 / 재사용 가능한 페르소나 시스템</span>
+            <h1>실제로 작동하는<br />페르소나를 설계하세요.</h1>
+            <p class="hero__lead">
+              이 가이드는 느슨한 character prompt를 안정적인 core, operating manual, optional extensions,
+              example patterns를 갖춘 재사용 가능한 AI persona system으로 바꾸는 방법을 보여줍니다.
+              <code>base-soul.md</code>와 <code>base-agents.md</code>에서 시작한 뒤, 실제 역할에 맞게 각 persona를 다듬어 보세요.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="#quickstart-ko">퀵스타트 시작</a>
+              <a class="button button--ghost" href="#reference-ko">파일 맵 보기</a>
+            </div>
+            <div class="meta-row">
+              <div class="meta-card">
+                <strong>문서 유형</strong>
+                <span>기술/비기술 독자가 함께 읽을 수 있는 Tutorial입니다.</span>
+              </div>
+              <div class="meta-card">
+                <strong>핵심 결과</strong>
+                <span>soul, agents guide, optional extensions를 갖춘 첫 persona pack을 만들 수 있습니다.</span>
+              </div>
+              <div class="meta-card">
+                <strong>디자인 모드</strong>
+                <span>xAI에서 영감을 받은 dark-first, monospace-forward, minimal structure를 사용합니다.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="overview-ko" class="section">
+          <span class="eyebrow">01 / 개요</span>
+          <h2>지금 만들려는 것은 무엇인가요.</h2>
+          <p class="section-intro">
+            당신이 만드는 것은 단일 prompt가 아닙니다. identity, operating rules, optional platform behavior,
+            reusable examples를 담은 persona pack입니다. 목표는 새로움보다 일관성입니다.
+          </p>
+          <div class="grid-3">
+            <article class="card">
+              <span class="tag">핵심</span>
+              <h3><code>base-soul.md</code></h3>
+              <p>personality core를 담당합니다. identity, role, communication style, values, boundaries, learning attitude를 정의합니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">운영</span>
+              <h3><code>base-agents.md</code></h3>
+              <p>operating manual 역할을 합니다. thinking flow, storage rules, collaboration, error handling, startup checks를 정의합니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">확장</span>
+              <h3>선택적 레이어</h3>
+              <p>platform-specific tone, custom skill template, example persona는 base pair가 안정화된 뒤에만 추가하세요.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">02 / 핵심 아이디어</span>
+          <h2>캐릭터와 운영을 분리하세요.</h2>
+          <div class="grid-2">
+            <article class="panel">
+              <span class="tag">Soul</span>
+              <p>
+                명확한 core가 없는 persona는 금방 generic해집니다. <code>base-soul.md</code>는 이런 질문에 답합니다.
+                이 persona는 누구인가? 무엇을 최적화하는가? 어떻게 말하는가? 무엇을 거부하는가?
+              </p>
+              <ul>
+                <li>identity와 role</li>
+                <li>core personality traits</li>
+                <li>communication style</li>
+                <li>values, boundaries, learning posture</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">Agents</span>
+              <p>
+                operating manual이 없는 persona는 일관성을 잃습니다. <code>base-agents.md</code>는 이런 질문에 답합니다.
+                이 persona는 어떻게 사고하고, 저장하고, 협업하고, 실패에서 회복하는가?
+              </p>
+              <ul>
+                <li>step-by-step reasoning flow</li>
+                <li>absolute storage rules</li>
+                <li>multi-agent handoff protocol</li>
+                <li>error handling, startup checks</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="quickstart-ko" class="section">
+          <span class="eyebrow">03 / 퀵스타트</span>
+          <h2>다섯 단계로 첫 persona pack을 만드세요.</h2>
+          <p class="section-intro">
+            이것이 template set에서 working persona로 가는 가장 짧은 경로입니다. 첫 버전은 작게 시작하고, 처음부터 모든 extension을 넣지 마세요.
+          </p>
+          <div class="step-list">
+            <article class="step">
+              <div class="step__index">STEP 01</div>
+              <div class="step__content">
+                <h3>core pair부터 복사하세요.</h3>
+                <p>절대 빠지면 안 되는 두 파일에서 시작하세요. 이 두 파일이 personality와 operations를 정의합니다.</p>
+                <pre><code>persona-name/
+├── soul.md
+└── agents.md</code></pre>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 02</div>
+              <div class="step__content">
+                <h3>가장 먼저 identity 섹션을 다시 쓰세요.</h3>
+                <p>스타일을 만지기 전에 soul 파일의 placeholder부터 교체하세요. role과 mission은 세 줄 안에 드러나야 합니다.</p>
+                <pre><code>## 정체성
+당신은 [페르소나 이름]입니다.
+- 역할: [구체적 역할]
+- 배경: [맥락]
+- 핵심 목적: [성공 기준]</code></pre>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 03</div>
+              <div class="step__content">
+                <h3>operating flow는 최대한 안정적으로 유지하세요.</h3>
+                <p>첫날부터 SOP를 과하게 바꾸지 마세요. 사용자 의도 파악 → 상황 분석 → 계획 → 실행 → 검증 → 학습의 기본 순서를 지키는 편이 좋습니다.</p>
+                <pre><code>1. 사용자의 목표를 파악한다
+2. 현재 상태를 분석한다
+3. 계획을 세운다
+4. 실행하고 중간 점검한다
+5. 결과를 검증하고 인사이트를 기록한다</code></pre>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 04</div>
+              <div class="step__content">
+                <h3>extension은 core가 작동한 뒤에만 추가하세요.</h3>
+                <p>platform override와 skill template는 증폭기입니다. 안정적인 core persona를 대신해 주는 것이 아닙니다.</p>
+                <pre><code>persona-name/
+├── soul.md
+├── agents.md
+├── platform-overrides/
+│   └── openclaw/
+│       └── soul-extension.md
+└── custom-skills/
+    └── skill-name/
+        └── SKILL.md</code></pre>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step__index">STEP 05</div>
+              <div class="step__content">
+                <h3>public-ready review를 실행하세요.</h3>
+                <p>내부 용어를 걷어내고, 반복되는 주장을 줄이고, 팀 밖 사람이 읽어도 role이 즉시 이해되는지 확인하세요.</p>
+                <pre><code>검토 항목:
+- 역할이 선명한가
+- 운영 규칙이 안정적인가
+- 폴더 배치가 깔끔한가
+- extension이 정말 필요한가
+- 외부 공개용으로 읽히는가</code></pre>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">04 / 구성 이해</span>
+          <h2>확장하기 전에 template set을 먼저 이해하세요.</h2>
+          <div class="grid-2">
+            <article class="card">
+              <span class="tag">base-soul.md</span>
+              <p>persona의 감정적·전략적 중심을 고정하는 파일입니다. 좋은 soul 파일은 여러 작업에서도 일관된 결을 유지하게 합니다.</p>
+              <ul>
+                <li>identity와 role 정의</li>
+                <li>accuracy, humility, user empathy, collaboration</li>
+                <li>clear boundaries와 non-negotiables</li>
+                <li>작업 후 중요한 insight를 남기는 learning rule</li>
+              </ul>
+            </article>
+            <article class="card">
+              <span class="tag">base-agents.md</span>
+              <p>execution을 표준화하는 파일입니다. 좋은 agents 파일은 세션과 팀이 바뀌어도 behavior를 안정적으로 유지하게 합니다.</p>
+              <ul>
+                <li>default reasoning pipeline</li>
+                <li>storage location rules</li>
+                <li>persona 간 collaboration contract</li>
+                <li>error handling과 startup checklist</li>
+              </ul>
+            </article>
+            <article class="card">
+              <span class="tag">openclaw extension</span>
+              <p>persona가 channel-specific tone, routing logic, OpenClaw-native behavior를 가져야 할 때 추가하세요.</p>
+              <ul>
+                <li>platform-specific speech pattern이 필요할 때</li>
+                <li>routing decision이 중요할 때</li>
+                <li>platform-agnostic persona라면 생략</li>
+              </ul>
+            </article>
+            <article class="card">
+              <span class="tag">skill template</span>
+              <p>persona가 반복 가능한 capability를 일정한 interface와 output shape로 제공해야 할 때 추가하세요.</p>
+              <ul>
+                <li>Description / When to Use</li>
+                <li>Parameters / Steps</li>
+                <li>Expected output example</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="reference-ko" class="section">
+          <span class="eyebrow">05 / 파일 맵</span>
+          <h2>템플릿 파일 맵.</h2>
+          <p class="section-intro">
+            각 파일이 무엇을 위한 것인지, 무엇을 안정적으로 유지해야 하는지, 무엇을 직접 바꿔야 하는지 빠르게 확인할 때 이 표를 사용하세요.
+          </p>
+          <div class="reference">
+            <table>
+              <thead>
+                <tr>
+                  <th>파일</th>
+                  <th>목적</th>
+                  <th>유지할 것</th>
+                  <th>직접 바꿀 것</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>base-soul.md</code></td>
+                  <td>persona의 identity core를 정의합니다.</td>
+                  <td>values, boundaries, collaboration posture</td>
+                  <td>name, role, background, mission, tone emphasis</td>
+                </tr>
+                <tr>
+                  <td><code>base-agents.md</code></td>
+                  <td>standard operating procedure를 정의합니다.</td>
+                  <td>thinking order, storage rules, startup checks</td>
+                  <td>team roles, handoff details, error log location</td>
+                </tr>
+                <tr>
+                  <td><code>openclaw-soul-extension.md</code></td>
+                  <td>platform-specific behavior를 추가합니다.</td>
+                  <td>extension-only scope</td>
+                  <td>tone, routing criteria, OpenClaw-specific phrasing</td>
+                </tr>
+                <tr>
+                  <td><code>hermes-skill-template.md</code></td>
+                  <td>재사용 가능한 skill을 일관된 형식으로 만듭니다.</td>
+                  <td>section order, output structure</td>
+                  <td>skill purpose, inputs, steps, examples</td>
+                </tr>
+                <tr>
+                  <td><code>example-researcher-soul.md</code></td>
+                  <td>완성형 persona example을 보여줍니다.</td>
+                  <td>reference pattern이라는 위치</td>
+                  <td>문장 복사보다 구조 추출</td>
+                </tr>
+                <tr>
+                  <td><code>example-researcher-agents.md</code></td>
+                  <td>role-specific operating layer를 보여줍니다.</td>
+                  <td>example file이라는 상태</td>
+                  <td>research 규칙을 자기 도메인에 맞게 조정</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="patterns-ko" class="section">
+          <span class="eyebrow">06 / 패턴</span>
+          <h2>바로 재사용할 수 있는 starter patterns.</h2>
+          <div class="patterns">
+            <article class="card">
+              <span class="tag">패턴 01</span>
+              <h3>Orchestrator</h3>
+              <p>tool이나 sub-agent 사이에서 작업을 라우팅해야 할 때 적합합니다. delegation, synthesis, final judgment를 우선하세요.</p>
+            </article>
+            <article class="card">
+              <span class="tag">패턴 02</span>
+              <h3>Researcher</h3>
+              <p>정보를 수집·검증·요약해야 하고 epistemic caution이 중요할 때 적합합니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">패턴 03</span>
+              <h3>Content builder</h3>
+              <p>거친 소재를 public-ready output으로 바꿔야 할 때 적합합니다. structure, consistency, voice를 우선하세요.</p>
+            </article>
+            <article class="card">
+              <span class="tag">패턴 04</span>
+              <h3>Internal operator</h3>
+              <p>routine execution, logging, predictable operational discipline이 중요한 persona에 적합합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">07 / 실수 방지</span>
+          <h2>피해야 할 흔한 실수.</h2>
+          <div class="grid-2">
+            <article class="panel">
+              <ul>
+                <li>personality traits를 operating manual 안에 섞어 넣는 것</li>
+                <li>example files를 reference pattern이 아니라 production-ready source처럼 다루는 것</li>
+                <li>core pair가 안정화되기 전에 platform extension부터 붙이는 것</li>
+                <li>도메인 없이 “효율적으로 사용자를 돕는다” 같은 모호한 mission을 쓰는 것</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <ul>
+                <li>persona마다 제각각 storage structure를 만들게 두는 것</li>
+                <li>default flow를 검증하기 전에 core SOP를 덮어쓰는 것</li>
+                <li>작동하는 persona 하나 없이 거대한 폴더 트리부터 만드는 것</li>
+                <li>public guide에 internal-only language를 그대로 남겨 두는 것</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">08 / 워크플로우</span>
+          <h2>추천 시작 워크플로우.</h2>
+          <div class="panel">
+            <p>
+              가장 안정적인 시작 방식은 단순합니다. <code>base-soul.md</code>와 <code>base-agents.md</code>를 복사하고,
+              persona name과 role을 바꾸고, real task로 테스트한 다음, 정말 필요하다고 확인된 extension만 추가하세요.
+            </p>
+            <pre><code>1. base-soul.md와 base-agents.md를 복사한다
+2. 새 persona 이름으로 바꾼다
+3. identity, role, mission을 다시 쓴다
+4. SOP는 처음엔 최대한 유지한다
+5. real prompt로 테스트한다
+6. 필요할 때만 platform override를 추가한다
+7. 반복되는 behavior는 skill template로 정리한다</code></pre>
+          </div>
+        </section>
+
+        <section class="section">
+          <span class="eyebrow">09 / FAQ</span>
+          <h2>자주 묻는 질문.</h2>
+          <details>
+            <summary>항상 <code>base-soul.md</code>와 <code>base-agents.md</code>가 둘 다 필요한가요?</summary>
+            <p>네. soul 파일은 identity를, agents 파일은 execution을 정의합니다. 둘 중 하나라도 없으면 persona가 흔들립니다.</p>
+          </details>
+          <details>
+            <summary>base file 대신 example persona에서 바로 시작해도 되나요?</summary>
+            <p>example persona는 reference pattern으로만 쓰세요. 출발점은 항상 base pair가 더 안전합니다.</p>
+          </details>
+          <details>
+            <summary>platform override는 언제 추가해야 하나요?</summary>
+            <p>특정 environment, channel, orchestration layer에서 persona가 분명히 다르게 동작해야 할 때만 추가하세요.</p>
+          </details>
+        </section>
+
+        <section id="checklist-ko" class="section">
+          <span class="eyebrow">10 / 최종 체크리스트</span>
+          <h2>퍼블릭 공개 전 체크리스트.</h2>
+          <div class="checklist">
+            <article class="panel">
+              <span class="tag">명확성</span>
+              <ul>
+                <li>role이 한 문장 안에서 분명하게 드러나는가</li>
+                <li>mission이 추상적이지 않고 구체적인가</li>
+                <li>core와 extension의 차이가 눈에 보이는가</li>
+                <li>폴더 구조를 빠르게 훑을 수 있는가</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">일관성</span>
+              <ul>
+                <li>SOP가 안정적인 순서를 따르는가</li>
+                <li>storage rules가 명시되어 있는가</li>
+                <li>example가 example라고 분명히 표시되어 있는가</li>
+                <li>전체 섹션의 tone이 일관적인가</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">유용성</span>
+              <ul>
+                <li>추가 설명 없이도 newcomer가 첫 persona를 만들 수 있는가</li>
+                <li>experienced builder가 추측 없이 확장할 수 있는가</li>
+                <li>guide가 process와 structure를 함께 보여주는가</li>
+                <li>각 파일에 존재 이유가 분명한가</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <span class="tag">공개 적합성</span>
+              <ul>
+                <li>internal jargon이 제거되었거나 설명되었는가</li>
+                <li>confidential workflow나 credential이 없는가</li>
+                <li>독립적으로 공유 가능한 resource로 서는가</li>
+                <li>시각적 완성도가 public release에 충분한가</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="page footer">
-      <p>
-        Persona Templates Starter Guide. Built as a public-facing, dark-first tutorial with a monospace-led visual system inspired by xAI.
-      </p>
+      <p data-lang-content="en">Persona Templates Starter Guide. Built as a public-facing, dark-first tutorial with a monospace-led visual system inspired by xAI.</p>
+      <p data-lang-content="ko" hidden>페르소나 템플릿 스타터 가이드. xAI에서 영감을 받은 dark-first, monospace-led visual system으로 구성한 퍼블릭용 튜토리얼입니다.</p>
     </footer>
+
+    <script>
+      const languageSettings = {
+        en: {
+          title: 'Persona Templates Starter Guide',
+          description: 'A public starter guide for building reusable AI personas with base-soul, base-agents, extensions, and example patterns.',
+        },
+        ko: {
+          title: '페르소나 템플릿 스타터 가이드',
+          description: 'base-soul, base-agents, extensions, example patterns를 활용해 재사용 가능한 AI persona를 만드는 퍼블릭 가이드입니다.',
+        },
+      };
+
+      const contentBlocks = document.querySelectorAll('[data-lang-content]');
+      const switchButtons = document.querySelectorAll('[data-switch-lang]');
+      const metaDescription = document.querySelector('meta[name="description"]');
+
+      const normalizeLanguage = (value) => (value === 'ko' ? 'ko' : 'en');
+
+      const detectHashLanguage = () => {
+        if (window.location.hash.endsWith('-ko')) {
+          return 'ko';
+        }
+        if (window.location.hash.endsWith('-en')) {
+          return 'en';
+        }
+        return null;
+      };
+
+      const remapHash = (lang) => {
+        if (!window.location.hash) {
+          return `#top-${lang}`;
+        }
+        if (window.location.hash.endsWith('-en') || window.location.hash.endsWith('-ko')) {
+          return window.location.hash.replace(/-(en|ko)$/, `-${lang}`);
+        }
+        return `#top-${lang}`;
+      };
+
+      const setLanguage = (language, updateHash = false) => {
+        const nextLanguage = normalizeLanguage(language);
+        document.documentElement.lang = nextLanguage;
+        document.documentElement.dataset.lang = nextLanguage;
+        document.title = languageSettings[nextLanguage].title;
+        metaDescription.setAttribute('content', languageSettings[nextLanguage].description);
+
+        contentBlocks.forEach((element) => {
+          element.hidden = element.dataset.langContent !== nextLanguage;
+        });
+
+        switchButtons.forEach((button) => {
+          const isActive = button.dataset.switchLang === nextLanguage;
+          button.classList.toggle('is-active', isActive);
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+
+        window.localStorage.setItem('persona-guide-language', nextLanguage);
+
+        if (updateHash) {
+          const nextHash = remapHash(nextLanguage);
+          if (window.location.hash !== nextHash) {
+            window.location.hash = nextHash;
+          }
+        }
+      };
+
+      switchButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setLanguage(button.dataset.switchLang, true);
+        });
+      });
+
+      window.addEventListener('hashchange', () => {
+        const languageFromHash = detectHashLanguage();
+        if (languageFromHash && languageFromHash !== document.documentElement.dataset.lang) {
+          setLanguage(languageFromHash);
+        }
+      });
+
+      const initialLanguage = detectHashLanguage()
+        || window.localStorage.getItem('persona-guide-language')
+        || (window.navigator.language.toLowerCase().startsWith('ko') ? 'ko' : 'en');
+
+      setLanguage(initialLanguage);
+    </script>
   </body>
 </html>
