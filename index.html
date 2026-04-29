@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Persona Templates Starter Guide</title>
+    <meta
+      name="description"
+      content="A public starter guide for building reusable AI personas with base-soul, base-agents, extensions, and example patterns."
+    />
+    <style>
+      :root {
+        --bg: #1f2228;
+        --fg: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --text-muted: rgba(255, 255, 255, 0.5);
+        --text-faint: rgba(255, 255, 255, 0.3);
+        --border: rgba(255, 255, 255, 0.1);
+        --border-strong: rgba(255, 255, 255, 0.2);
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --focus: rgba(59, 130, 246, 0.5);
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--sans);
+        line-height: 1.6;
+      }
+
+      a {
+        color: var(--fg);
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--text-muted);
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 4px;
+      }
+
+      .page {
+        width: min(1200px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(18px);
+        background: rgba(31, 34, 40, 0.86);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .site-header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px 0;
+      }
+
+      .brand,
+      .eyebrow,
+      .button,
+      .tag,
+      th,
+      .step__index,
+      code {
+        font-family: var(--mono);
+      }
+
+      .brand {
+        font-size: 0.82rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 18px;
+      }
+
+      .nav a {
+        font-size: 0.92rem;
+        color: var(--text-secondary);
+      }
+
+      .hero {
+        padding: 88px 0 72px;
+        min-height: calc(100vh - 72px);
+        display: flex;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin-bottom: 18px;
+        font-size: 0.82rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-weight: 400;
+      }
+
+      h1 {
+        font-family: var(--mono);
+        font-size: clamp(4rem, 14vw, 10rem);
+        font-weight: 300;
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+        max-width: 980px;
+      }
+
+      .hero__lead {
+        max-width: 760px;
+        margin-top: 28px;
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+      }
+
+      .hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 36px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 12px 24px;
+        border: 1px solid var(--border-strong);
+        text-transform: uppercase;
+        letter-spacing: 1.4px;
+        font-size: 0.88rem;
+      }
+
+      .button--primary {
+        background: var(--fg);
+        color: var(--bg);
+      }
+
+      .button--primary:hover {
+        color: var(--bg);
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .button--ghost {
+        background: transparent;
+        color: var(--fg);
+      }
+
+      .button--ghost:hover {
+        background: var(--surface);
+        color: var(--fg);
+      }
+
+      .meta-row {
+        margin-top: 48px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .meta-card,
+      .card,
+      .reference,
+      .step,
+      .panel,
+      details {
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+
+      .meta-card {
+        padding: 20px;
+      }
+
+      .meta-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .meta-card span {
+        color: var(--text-secondary);
+      }
+
+      .section {
+        padding: 72px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .section h2 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        line-height: 1.08;
+        margin-bottom: 18px;
+      }
+
+      .section-intro {
+        max-width: 820px;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+      }
+
+      .grid-3,
+      .grid-2,
+      .patterns,
+      .checklist {
+        display: grid;
+        gap: 16px;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card,
+      .panel {
+        padding: 28px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        margin-bottom: 16px;
+        border: 1px solid var(--border-strong);
+        color: var(--fg);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .card p,
+      .panel p,
+      .step p,
+      li,
+      td {
+        color: var(--text-secondary);
+      }
+
+      .card ul,
+      .panel ul,
+      .step ul,
+      .checklist ul {
+        margin: 16px 0 0;
+        padding-left: 18px;
+      }
+
+      .step-list {
+        display: grid;
+        gap: 16px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+      }
+
+      .step__index {
+        padding: 26px 20px;
+        border-right: 1px solid var(--border);
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        letter-spacing: 0.12em;
+      }
+
+      .step__content {
+        padding: 26px 28px;
+      }
+
+      pre {
+        margin: 18px 0 0;
+        padding: 18px;
+        overflow-x: auto;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        line-height: 1.7;
+        font-size: 0.92rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .reference {
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 16px 18px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+
+      th {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      .patterns {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      details {
+        padding: 20px 22px;
+      }
+
+      details + details {
+        margin-top: 12px;
+      }
+
+      summary {
+        cursor: pointer;
+        list-style: none;
+        color: var(--fg);
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .checklist {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .footer {
+        padding: 36px 0 72px;
+        color: var(--text-faint);
+        border-top: 1px solid var(--border);
+      }
+
+      @media (max-width: 960px) {
+        .meta-row,
+        .grid-3,
+        .grid-2,
+        .patterns,
+        .checklist {
+          grid-template-columns: 1fr;
+        }
+
+        .site-header__inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100% - 32px, 1200px);
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 72px 0 56px;
+        }
+
+        .step {
+          grid-template-columns: 1fr;
+        }
+
+        .step__index {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="page site-header__inner">
+        <a class="brand" href="#top">Persona Templates Guide</a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#overview">Overview</a>
+          <a href="#quickstart">Quickstart</a>
+          <a href="#reference">Reference</a>
+          <a href="#patterns">Patterns</a>
+          <a href="#checklist">Checklist</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top" class="page">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">Public tutorial / reusable persona systems</span>
+          <h1>Build personas that actually work.</h1>
+          <p class="hero__lead">
+            This guide shows how to turn a loose character prompt into a reusable AI persona system
+            using a stable core, an operating manual, optional extensions, and example patterns.
+            Start with <code>base-soul.md</code> and <code>base-agents.md</code>, then shape each persona for a real role.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#quickstart">Start quickstart</a>
+            <a class="button button--ghost" href="#reference">View file map</a>
+          </div>
+          <div class="meta-row">
+            <div class="meta-card">
+              <strong>Document type</strong>
+              <span>Tutorial for mixed technical and non-technical readers.</span>
+            </div>
+            <div class="meta-card">
+              <strong>Main outcome</strong>
+              <span>Create your first persona pack with a soul, agents guide, and optional extensions.</span>
+            </div>
+            <div class="meta-card">
+              <strong>Design mode</strong>
+              <span>Dark-first, monospace-forward, minimal structure inspired by xAI.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section">
+        <span class="eyebrow">01 / overview</span>
+        <h2>What you are building.</h2>
+        <p class="section-intro">
+          You are not building a single prompt. You are building a persona pack: a set of files that defines identity,
+          operating rules, optional platform behavior, and reusable examples. The goal is consistency, not novelty.
+        </p>
+        <div class="grid-3">
+          <article class="card">
+            <span class="tag">Core</span>
+            <h3><code>base-soul.md</code></h3>
+            <p>
+              The personality core. It defines identity, role, communication style, values, boundaries, and learning attitude.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">SOP</span>
+            <h3><code>base-agents.md</code></h3>
+            <p>
+              The operating manual. It defines thinking flow, storage rules, collaboration, error handling, and startup checks.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Extensions</span>
+            <h3>Optional layers</h3>
+            <p>
+              Add platform-specific tone, custom skill templates, and example personas only when the base pair is stable.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="eyebrow">02 / core idea</span>
+        <h2>Separate character from operation.</h2>
+        <div class="grid-2">
+          <article class="panel">
+            <span class="tag">Soul</span>
+            <p>
+              A persona without a clear core becomes generic. <code>base-soul.md</code> answers: Who is this persona?
+              What does it optimize for? How does it speak? What does it refuse to do?
+            </p>
+            <ul>
+              <li>Identity and role</li>
+              <li>Core personality traits</li>
+              <li>Communication style</li>
+              <li>Values, boundaries, and learning posture</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <span class="tag">Agents</span>
+            <p>
+              A persona without an operating manual becomes inconsistent. <code>base-agents.md</code> answers:
+              How does this persona think, store, collaborate, and recover from failure?
+            </p>
+            <ul>
+              <li>Step-by-step reasoning flow</li>
+              <li>Absolute storage rules</li>
+              <li>Multi-agent handoff protocol</li>
+              <li>Error handling and startup checks</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="quickstart" class="section">
+        <span class="eyebrow">03 / quickstart</span>
+        <h2>Create your first persona pack in five steps.</h2>
+        <p class="section-intro">
+          This is the shortest path from template set to working persona. Keep the first version small. Do not start with every extension.
+        </p>
+        <div class="step-list">
+          <article class="step">
+            <div class="step__index">STEP 01</div>
+            <div class="step__content">
+              <h3>Copy the core pair.</h3>
+              <p>
+                Start with the two non-negotiable files. They define personality and operations.
+              </p>
+              <pre><code>persona-name/
+├── soul.md
+└── agents.md</code></pre>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step__index">STEP 02</div>
+            <div class="step__content">
+              <h3>Rewrite the identity section first.</h3>
+              <p>
+                Replace placeholders in the soul file before changing style details. The role and mission should be obvious in three lines.
+              </p>
+              <pre><code>## Identity
+You are [Persona Name].
+- Role: [specific role]
+- Background: [context]
+- Core mission: [what success means]</code></pre>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step__index">STEP 03</div>
+            <div class="step__content">
+              <h3>Keep the operating flow stable.</h3>
+              <p>
+                Do not over-customize the SOP on day one. Preserve the default order: understand intent, analyze context, plan, execute, verify, learn.
+              </p>
+              <pre><code>1. Understand the user's goal
+2. Analyze the current state
+3. Make a plan
+4. Execute and check progress
+5. Verify results and record insight</code></pre>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step__index">STEP 04</div>
+            <div class="step__content">
+              <h3>Add extensions only after the core works.</h3>
+              <p>
+                Platform overrides and skill templates are force multipliers. They are not a replacement for a stable core persona.
+              </p>
+              <pre><code>persona-name/
+├── soul.md
+├── agents.md
+├── platform-overrides/
+│   └── openclaw/
+│       └── soul-extension.md
+└── custom-skills/
+    └── skill-name/
+        └── SKILL.md</code></pre>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step__index">STEP 05</div>
+            <div class="step__content">
+              <h3>Run a public-ready review.</h3>
+              <p>
+                Remove internal jargon, collapse repeated claims, and check that someone outside your team can understand the role immediately.
+              </p>
+              <pre><code>Review for:
+- clarity of role
+- stable operating rules
+- clean folder placement
+- extension necessity
+- external readability</code></pre>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="eyebrow">04 / anatomy</span>
+        <h2>Understand the template set before you extend it.</h2>
+        <div class="grid-2">
+          <article class="card">
+            <span class="tag">base-soul.md</span>
+            <p>
+              Use this file to lock the persona's emotional and strategic center. A good soul file creates coherence across tasks.
+            </p>
+            <ul>
+              <li>Identity and role definition</li>
+              <li>Accuracy, humility, user empathy, collaboration</li>
+              <li>Clear boundaries and non-negotiables</li>
+              <li>Learning rule: capture important insight after work</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag">base-agents.md</span>
+            <p>
+              Use this file to standardize execution. A good agents file creates reliable behavior across sessions and teammates.
+            </p>
+            <ul>
+              <li>Default reasoning pipeline</li>
+              <li>Storage location rules</li>
+              <li>Collaboration contract between personas</li>
+              <li>Error handling and startup checklist</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag">openclaw extension</span>
+            <p>
+              Add when a persona needs channel-specific tone, routing logic, or OpenClaw-native behavior.
+            </p>
+            <ul>
+              <li>Use for platform-specific speech patterns</li>
+              <li>Use for routing decisions</li>
+              <li>Skip if your persona is platform-agnostic</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag">skill template</span>
+            <p>
+              Add when the persona needs repeatable capabilities with a consistent interface and output shape.
+            </p>
+            <ul>
+              <li>Description and when to use</li>
+              <li>Parameters and steps</li>
+              <li>Expected output example</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="reference" class="section">
+        <span class="eyebrow">05 / reference</span>
+        <h2>Template file map.</h2>
+        <p class="section-intro">
+          Use this table when you need a fast answer about what each file is for, what should stay stable, and what you should customize.
+        </p>
+        <div class="reference">
+          <table>
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Purpose</th>
+                <th>Keep stable</th>
+                <th>Customize</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>base-soul.md</code></td>
+                <td>Defines the persona's identity core.</td>
+                <td>Values, boundaries, collaboration posture.</td>
+                <td>Name, role, background, mission, tone emphasis.</td>
+              </tr>
+              <tr>
+                <td><code>base-agents.md</code></td>
+                <td>Defines standard operating procedure.</td>
+                <td>Thinking order, storage rules, startup checks.</td>
+                <td>Team roles, handoff details, error log location.</td>
+              </tr>
+              <tr>
+                <td><code>openclaw-soul-extension.md</code></td>
+                <td>Applies platform-specific behavior.</td>
+                <td>Extension-only scope.</td>
+                <td>Tone, routing criteria, OpenClaw-specific phrasing.</td>
+              </tr>
+              <tr>
+                <td><code>hermes-skill-template.md</code></td>
+                <td>Creates reusable skills with a consistent format.</td>
+                <td>Section order and output structure.</td>
+                <td>Skill purpose, inputs, steps, examples.</td>
+              </tr>
+              <tr>
+                <td><code>example-researcher-soul.md</code></td>
+                <td>Shows a complete persona example.</td>
+                <td>Use as a pattern reference only.</td>
+                <td>Extract useful structures, not exact wording.</td>
+              </tr>
+              <tr>
+                <td><code>example-researcher-agents.md</code></td>
+                <td>Shows a role-specific operating layer.</td>
+                <td>Pattern status as an example file.</td>
+                <td>Adapt research-specific rules for your own domain.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="patterns" class="section">
+        <span class="eyebrow">06 / patterns</span>
+        <h2>Starter patterns you can reuse.</h2>
+        <div class="patterns">
+          <article class="card">
+            <span class="tag">Pattern 01</span>
+            <h3>Orchestrator</h3>
+            <p>
+              Best when the persona routes work across tools or sub-agents. Prioritize delegation, synthesis, and final judgment.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Pattern 02</span>
+            <h3>Researcher</h3>
+            <p>
+              Best when the persona must collect, verify, and summarize information with high epistemic caution.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Pattern 03</span>
+            <h3>Content builder</h3>
+            <p>
+              Best when the persona turns rough material into polished public outputs with structure, consistency, and clear voice.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Pattern 04</span>
+            <h3>Internal operator</h3>
+            <p>
+              Best when the persona is responsible for routine execution, logging, and predictable operational discipline.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="eyebrow">07 / mistakes</span>
+        <h2>Common mistakes to avoid.</h2>
+        <div class="grid-2">
+          <article class="panel">
+            <ul>
+              <li>Mixing personality traits into the operating manual.</li>
+              <li>Treating examples as production-ready instead of reference patterns.</li>
+              <li>Adding platform extensions before the core pair is stable.</li>
+              <li>Writing vague missions like “help the user efficiently” without a domain.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <ul>
+              <li>Letting every persona invent its own storage structure.</li>
+              <li>Overwriting the core SOP before testing the default flow.</li>
+              <li>Building a huge folder tree before one working persona exists.</li>
+              <li>Keeping internal-only language in a public-facing guide.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="eyebrow">08 / workflow</span>
+        <h2>Recommended starter workflow.</h2>
+        <div class="panel">
+          <p>
+            The most reliable starting method is simple: copy <code>base-soul.md</code> and <code>base-agents.md</code>,
+            change the persona name and role, test with real tasks, then add only the extensions that prove necessary.
+          </p>
+          <pre><code>1. Copy base-soul.md and base-agents.md
+2. Rename them for the new persona
+3. Rewrite identity, role, and mission
+4. Keep the SOP mostly intact
+5. Test on real prompts
+6. Add platform overrides only if needed
+7. Turn repeated behavior into a skill template</code></pre>
+        </div>
+      </section>
+
+      <section class="section">
+        <span class="eyebrow">09 / faq</span>
+        <h2>Frequently asked questions.</h2>
+        <details>
+          <summary>Do I always need both <code>base-soul.md</code> and <code>base-agents.md</code>?</summary>
+          <p>Yes. The soul file defines identity. The agents file defines execution. Without both, the persona drifts.</p>
+        </details>
+        <details>
+          <summary>Should I start from an example persona instead of the base files?</summary>
+          <p>Use example personas as reference patterns, not as your starting source of truth. Start with the base pair first.</p>
+        </details>
+        <details>
+          <summary>When should I add a platform override?</summary>
+          <p>Add it only when the persona must behave differently in a specific environment, channel, or orchestration layer.</p>
+        </details>
+      </section>
+
+      <section id="checklist" class="section">
+        <span class="eyebrow">10 / final checklist</span>
+        <h2>Public-ready checklist.</h2>
+        <div class="checklist">
+          <article class="panel">
+            <span class="tag">Clarity</span>
+            <ul>
+              <li>The role is obvious in one sentence.</li>
+              <li>The mission is concrete, not abstract.</li>
+              <li>The difference between core and extension is visible.</li>
+              <li>The folder structure is easy to scan.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <span class="tag">Consistency</span>
+            <ul>
+              <li>The SOP follows a stable order.</li>
+              <li>Storage rules are explicit.</li>
+              <li>Examples are labeled as examples.</li>
+              <li>Tone is coherent across all sections.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <span class="tag">Usefulness</span>
+            <ul>
+              <li>A newcomer can build a first persona without extra context.</li>
+              <li>An experienced builder can extend the system without guessing.</li>
+              <li>The guide shows both process and structure.</li>
+              <li>Each file has a clear reason to exist.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <span class="tag">Public fit</span>
+            <ul>
+              <li>Internal jargon has been removed or explained.</li>
+              <li>No confidential workflows or credentials appear.</li>
+              <li>The guide stands on its own as a shareable resource.</li>
+              <li>The visual presentation is clean enough for public release.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page footer">
+      <p>
+        Persona Templates Starter Guide. Built as a public-facing, dark-first tutorial with a monospace-led visual system inspired by xAI.
+      </p>
+    </footer>
+  </body>
+</html>
